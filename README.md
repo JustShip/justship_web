@@ -1,4 +1,15 @@
 # justship
+![GitHub Workflow Status](https://img.shields.io/github/workflow/status/justship/justship_web/ci)
+![GitHub Repo stars](https://img.shields.io/github/stars/justship/justship_web)
+
+![GitHub Sponsors](https://img.shields.io/github/sponsors/JustShip?logo=sponsors)
+![GitHub](https://img.shields.io/github/license/justship/justship_web)
+![GitHub commit activity](https://img.shields.io/github/commit-activity/m/JustShip/justship_web)
+![GitHub last commit](https://img.shields.io/github/last-commit/JustShip/justship_web)
+![GitHub contributors](https://img.shields.io/github/contributors/JustShip/justship_web)
+![GitHub issues](https://img.shields.io/github/issues/justship/justship_web)
+![GitHub repo size](https://img.shields.io/github/repo-size/justship/justship_web)
+
 
 ## Build Setup
 
