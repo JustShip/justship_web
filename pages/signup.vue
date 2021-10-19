@@ -34,7 +34,7 @@
                     </o-field>
 
                     <error v-if="signupForm.codeError">
-                        El código no es correcto, intenta de nuevo.
+                        El código es incorrecto, intenta de nuevo.
                     </error>
                     
                     <o-button variant="primary" native-type="submit">
@@ -50,6 +50,7 @@
 
 <script>
 import SIGNUP from '~/apollo/auth/mutations/signUp.js'
+import EMAIL_CODE_AUTH from '~/apollo/auth/mutations/emailCodeAuth'
 export default {
     auth: false,
 
@@ -98,7 +99,31 @@ export default {
             this.signupForm.loading = false
         },
 
-        emailCodeAuth() {}
+        async emailCodeAuth() {
+            this.codeForm.loading = true
+
+            const { data } = await this.$apollo.mutate({
+                mutation: EMAIL_CODE_AUTH,
+                variables: {
+                    email: this.signupForm.email,
+                    code: this.codeForm.code
+                }
+            })
+
+            switch (data.emailCodeAuth.status) {
+                case 'ok': {
+                    // TODO: login
+                    this.codeForm.codeError = false
+                    break
+                }
+                case 'wrong-code': {
+                    this.signupForm.codeError = true
+                    break
+                }
+            }
+
+            this.codeForm.loading = false
+        }
     }
 }
 </script>
