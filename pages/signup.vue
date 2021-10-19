@@ -4,14 +4,14 @@
         <div v-if="step === 1">
             <form @submit.stop.prevent="signup()">
                 <o-field label="Correo">
-                    <o-input v-model="signupForm.email" type="email"></o-input>
+                    <o-input v-model="$v.signupForm.email.$model" type="email"></o-input>
                 </o-field>
 
                 <o-field label="Contraseña">
-                    <o-input v-model="signupForm.password" type="password" password-reveal></o-input>
+                    <o-input v-model="$v.signupForm.password.$model" type="password" password-reveal></o-input>
                 </o-field>                    
 
-                <o-button variant="primary" native-type="submit">
+                <o-button variant="primary" native-type="submit" :disabled="$v.signupForm.$invalid">
                     <o-icon v-if="signupForm.loading" icon="loading" spin></o-icon>
                     <span v-else>Crear cuenta</span>
                 </o-button>
@@ -30,14 +30,14 @@
                     <p>Revisa tu correo y pega el código de confirmación aquí.</p>
 
                     <o-field>
-                        <o-input v-model="codeForm.code"></o-input>
+                        <o-input v-model="$v.codeForm.code.$model"></o-input>
                     </o-field>
 
                     <error v-if="signupForm.codeError">
                         El código es incorrecto, intenta de nuevo.
                     </error>
                     
-                    <o-button variant="primary" native-type="submit">
+                    <o-button variant="primary" native-type="submit" :disabled="$v.codeForm.$invalid">
                         <o-icon v-if="codeForm.loading" icon="loading" spin></o-icon>
                         <span v-else>Confirmar correo</span>                        
                     </o-button>
@@ -51,6 +51,7 @@
 </template>
 
 <script>
+import { required, email, minLength } from 'vuelidate/lib/validators'
 import SIGNUP from '~/apollo/auth/mutations/signUp.js'
 import EMAIL_CODE_AUTH from '~/apollo/auth/mutations/emailCodeAuth'
 export default {
@@ -73,68 +74,82 @@ export default {
         }
     },
 
+    validations: {
+        signupForm: {
+            email: { required, email },
+            password: { required, minLength: minLength(8) },        
+        },
+        codeForm: {
+            code: { required },
+        }
+    },
+
     methods: {
         /**
          * Create user account
          */
         async signup() {
-            this.signupForm.loading = true
+            if (!this.$v.signupForm.$invalid) {
+                this.signupForm.loading = true
 
-            // Get recaptcha token
-            const token = await this.$recaptcha.getResponse()
+                // Get recaptcha token
+                const token = await this.$recaptcha.getResponse()
 
-            // Signup user
-            const { data } = await this.$apollo.mutate({
-                mutation: SIGNUP,
-                variables: {
-                    token,
-                    email: this.signupForm.email,
-                    password: this.signupForm.password
-                }
-            })
+                // Signup user
+                const { data } = await this.$apollo.mutate({
+                    mutation: SIGNUP,
+                    variables: {
+                        token,
+                        email: this.signupForm.email,
+                        password: this.signupForm.password
+                    }
+                })
 
-            switch (data.signUp.status) {
-                case 'ok': {
-                    this.step = 2
-                    this.codeForm.code = null                
-                    break
+                switch (data.signUp.status) {
+                    case 'ok': {
+                        this.step = 2
+                        this.codeForm.code = null                
+                        break
+                    }
+                    case 'already-registered': {
+                        // TODO
+                        break
+                    }
                 }
-                case 'already-registered': {
-                    // TODO
-                    break
-                }
+
+                this.signupForm.loading = false
             }
-
-            this.signupForm.loading = false
         },
 
         /**
          * Authenticate with email code, confirming email and loggin in.
          */
         async emailCodeAuth() {
-            this.codeForm.loading = true
+            if (!this.$v.codeForm.$invalid) {
+                this.codeForm.loading = true
 
-            const { data } = await this.$apollo.mutate({
-                mutation: EMAIL_CODE_AUTH,
-                variables: {
-                    email: this.signupForm.email,
-                    code: this.codeForm.code
-                }
-            })
+                const { data } = await this.$apollo.mutate({
+                    mutation: EMAIL_CODE_AUTH,
+                    variables: {
+                        email: this.signupForm.email,
+                        code: this.codeForm.code
+                    }
+                })
 
-            switch (data.emailCodeAuth.status) {
-                case 'ok': {
-                    this.login(data.emailCodeAuth.token)
-                    this.codeForm.codeError = false
-                    break
+                switch (data.emailCodeAuth.status) {
+                    case 'ok': {
+                        this.login(data.emailCodeAuth.token)
+                        this.codeForm.codeError = false
+                        break
+                    }
+                    case 'wrong-code': {
+                        this.signupForm.codeError = true
+                        break
+                    }
                 }
-                case 'wrong-code': {
-                    this.signupForm.codeError = true
-                    break
-                }
+
+                this.codeForm.loading = false
             }
-
-            this.codeForm.loading = false
         },
 
         /**
@@ -156,6 +171,10 @@ export default {
                 window.location = url
             }
         },
+
+        beforeDestroy() {
+            this.$recaptcha.destroy()
+        }
     }
 }
 </script>
