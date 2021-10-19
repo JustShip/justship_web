@@ -33,7 +33,7 @@
 
 <script>
 import { required, minLength } from 'vuelidate/lib/validators'
-import TOKEN_AUTH from '~/apollo/users/mutations/tokenAuth.js'
+import TOKEN_AUTH from '~/apollo/auth/mutations/tokenAuth.js'
 export default {
     data() {
         return {
