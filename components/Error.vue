@@ -3,6 +3,7 @@
     <p
       :class="`${ {transitioned: 'ease'} }`"
     >
+      <o-icon variant="danger" icon="alert-circle-outline" size="small" />
       <slot />
     </p>
   </transition>
