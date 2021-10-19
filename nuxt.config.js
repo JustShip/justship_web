@@ -38,10 +38,30 @@ export default {
     '@nuxtjs/axios',
     // https://go.nuxtjs.dev/pwa
     '@nuxtjs/pwa',
+    '@nuxtjs/apollo',
+    '@nuxtjs/dotenv',
+    'cookie-universal-nuxt'
   ],
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
   axios: {},
+
+  // Apollo
+  apollo: {
+    tokenExpires: 7,
+    includeNodeModules: true,
+    // Note: Setting JWT would repeat the prefix defined in Apollo `tokenType` in `local` strategy
+    authenticationType: '',
+    defaultOptions: {
+      $query: {
+        loadingKey: 'loading',
+        fetchPolicy: 'cache-and-network',
+      },
+    },
+    clientConfigs: {
+      default: '~/apollo/client.js',
+    },
+  },
 
   // PWA module configuration: https://go.nuxtjs.dev/pwa
   pwa: {
