@@ -72,6 +72,9 @@ export default {
     },
 
     methods: {
+        /**
+         * Create user account
+         */
         async signup() {
             this.signupForm.loading = true
 
@@ -99,6 +102,9 @@ export default {
             this.signupForm.loading = false
         },
 
+        /**
+         * Authenticate with email code, confirming email and loggin in.
+         */
         async emailCodeAuth() {
             this.codeForm.loading = true
 
@@ -112,7 +118,7 @@ export default {
 
             switch (data.emailCodeAuth.status) {
                 case 'ok': {
-                    // TODO: login
+                    this.login(data.emailCodeAuth.token)
                     this.codeForm.codeError = false
                     break
                 }
@@ -123,7 +129,27 @@ export default {
             }
 
             this.codeForm.loading = false
-        }
+        },
+
+        /**
+         * Login with provided JWT token.
+         */
+        login(token) {
+            // Login in frontend
+            this.$auth.setUserToken(token)
+
+            // Redirect if cookie is defined
+            const redirect = this.$cookies.get('auth.redirect')
+            if (!redirect) {
+                window.location = '/profile'
+            } else {
+                let url = redirect + '?'
+                for (const i in this.$route.query) {
+                    url += i + '=' + this.$route.query[i] + '&'
+                }
+                window.location = url
+            }
+        },
     }
 }
 </script>
