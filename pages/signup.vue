@@ -1,6 +1,5 @@
 <template>
     <div>
-
         <!-- step 1 -->
         <div v-if="step === 1">
             <form @submit.stop.prevent="signup()">
@@ -12,7 +11,7 @@
                     <o-input v-model="signupForm.password" type="password" password-reveal></o-input>
                 </o-field>                    
 
-                <o-button>
+                <o-button variant="primary" native-type="submit">
                     <o-icon v-if="signupForm.loading" icon="loading" spin></o-icon>
                     <span v-else>Crear cuenta</span>
                 </o-button>
@@ -50,6 +49,7 @@
 </template>
 
 <script>
+import SIGNUP from '~/apollo/auth/mutations/signUp.js'
 export default {
     auth: false,
 
@@ -59,7 +59,6 @@ export default {
             signupForm: {
                 email: null,
                 password: null,
-                code: null,
                 codeError: false,
                 loading: false,
             },
@@ -72,7 +71,33 @@ export default {
     },
 
     methods: {
-        signup() {},
+        async signup() {
+            this.signupForm.loading = true
+
+            // Signup user
+            const { data } = await this.$apollo.mutate({
+                mutation: SIGNUP,
+                variables: {
+                    email: this.signupForm.email,
+                    password: this.signupForm.password
+                }
+            })
+
+            switch (data.signUp.status) {
+                case 'ok': {
+                    this.step = 2
+                    this.codeForm.code = null                
+                    break
+                }
+                case 'already-registered': {
+                    // TODO
+                    break
+                }
+            }
+
+            this.signupForm.loading = false
+        },
+
         emailCodeAuth() {}
     }
 }
