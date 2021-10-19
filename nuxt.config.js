@@ -19,6 +19,7 @@ export default {
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
+    { src: '~/plugins/vuelidate' }
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
@@ -38,10 +39,41 @@ export default {
     '@nuxtjs/axios',
     // https://go.nuxtjs.dev/pwa
     '@nuxtjs/pwa',
+    '@nuxtjs/auth-next',
     '@nuxtjs/apollo',
     '@nuxtjs/dotenv',
     'cookie-universal-nuxt'
   ],
+
+  // Router
+  router: {
+    middleware: ['auth'],
+  },
+
+  // Auth
+  auth: {
+    redirect: {
+      login: '/signin',
+      logout: '/',
+      home: false,
+      user: '/profile',
+    },
+    strategies: {
+      local: {
+        token: {
+          required: true,
+          type: 'JWT',
+          global: true
+        },
+        endpoints: {
+          logout: true,
+          user: false,
+        },
+      },
+    },
+    // User will be redirected on login/logouts.
+    watchLoggedIn: true,
+  },
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
   axios: {},
