@@ -1,3 +1,4 @@
+require('dotenv').config()
 const title = 'JustShip'
 const description = 'Comunidad de makers creando productos en público y lanzando rápido. Encuentra recursos, herramientas, productos y contacta con otros creativos.'
 const image = 'https://justship.to/cover.jpg'
@@ -101,10 +102,16 @@ export default {
   modules: [
     // Doc: https://oruga.io/documentation/#nuxt
     '@oruga-ui/oruga/nuxt',
+    
     // https://go.nuxtjs.dev/axios
     '@nuxtjs/axios',
+    
     // https://go.nuxtjs.dev/pwa
     '@nuxtjs/pwa',
+    
+    // https://www.npmjs.com/package/@nuxtjs/recaptcha
+    '@nuxtjs/recaptcha',
+    
     '@nuxtjs/auth-next',
     '@nuxtjs/apollo',
     '@nuxtjs/dotenv',
@@ -160,6 +167,14 @@ export default {
     clientConfigs: {
       default: '~/apollo/client.js',
     },
+  },
+
+  // Google reCAPTCHA
+  recaptcha: {
+    hideBadge: true, // Hide badge element (v3 & v2 via size=invisible)
+    siteKey: process.env.GOOGLE_RECAPTCHA_PUBLIC_KEY,
+    version: 3,
+    size: 'invisible', // Size: 'compact', 'normal', 'invisible' (v2)
   },
 
   // PWA module configuration: https://go.nuxtjs.dev/pwa

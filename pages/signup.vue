@@ -45,6 +45,8 @@
             </div>
         </transition>
         <!-- end step 2 -->
+
+        <recaptcha />
     </div>
 </template>
 
@@ -78,10 +80,14 @@ export default {
         async signup() {
             this.signupForm.loading = true
 
+            // Get recaptcha token
+            const token = await this.$recaptcha.getResponse()
+
             // Signup user
             const { data } = await this.$apollo.mutate({
                 mutation: SIGNUP,
                 variables: {
+                    token,
                     email: this.signupForm.email,
                     password: this.signupForm.password
                 }
