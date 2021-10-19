@@ -107,7 +107,8 @@ export default {
     '@nuxtjs/auth-next',
     '@nuxtjs/apollo',
     '@nuxtjs/dotenv',
-    'cookie-universal-nuxt'
+    'cookie-universal-nuxt',
+    'nuxt-rfg-icon'
   ],
 
   // Router
@@ -171,6 +172,72 @@ export default {
   oruga: {
     includeCss: 'full-vars',
     iconPack: 'mdi'
+  },
+
+  // Favicon
+  'rfg-icon': {
+    static: true,
+    staticPath: 'favicons',
+    masterPicture: 'static/favicon.png',
+    rfg: {
+      masterPicture: 'static/favicon.png',
+      iconsPath: '/',
+      design: {
+        ios: {
+          pictureAspect: 'noChange',
+          assets: {
+            ios6AndPriorIcons: false,
+            ios7AndLaterIcons: false,
+            precomposedIcons: false,
+            declareOnlyDefaultIcon: true
+          }
+        },
+        desktopBrowser: {},
+        windows: {
+          pictureAspect: 'noChange',
+          backgroundColor: '#000000',
+          onConflict: 'override',
+          assets: {
+            windows80Ie10Tile: false,
+            windows10Ie11EdgeTiles: {
+              small: false,
+              medium: true,
+              big: false,
+              rectangle: false
+            }
+          }
+        },
+        androidChrome: {
+          pictureAspect: 'shadow',
+          themeColor: '#000000',
+          manifest: {
+            name: 'JustShip',
+            startUrl: 'https://justship.to',
+            display: 'standalone',
+            orientation: 'notSet',
+            onConflict: 'override',
+            declared: true
+          },
+          assets: {
+            legacyIcon: true,
+            lowResolutionIcons: false
+          }
+        },
+        safariPinnedTab: {
+          pictureAspect: 'blackAndWhite',
+          threshold: 66.40625,
+          themeColor: '#000000'
+        }
+      },
+      settings: {
+        compression: 3,
+        scalingAlgorithm: 'Mitchell',
+        errorOnImageTooSmall: false,
+        readmeFile: true,
+        htmlCodeFile: true,
+        usePathAsIs: false
+      }
+    }
   },
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
