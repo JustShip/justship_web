@@ -1,12 +1,76 @@
+const title = 'JustShip'
+const description = 'Comunidad de makers creando productos en público y lanzando rápido. Encuentra recursos, herramientas, productos y contacta con otros creativos.'
+const image = 'https://justship.to/cover.jpg'
+
 export default {
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
-    title: 'justship',
+    title: 'JustShip',
+    htmlAttrs: {
+      lang: 'es_ES'
+    },
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-      { hid: 'description', name: 'description', content: '' },
-      { name: 'format-detection', content: 'telephone=no' }
+      { name: 'og:locale', content: 'es_ES' },
+      {
+        hid: 'description',
+        name: 'description',
+        content: description
+      },
+      { hid: 'og:type', name: 'og:type', content: 'website' },
+      {
+        hid: 'og:site_name',
+        name: 'og:site_name',
+        content: title
+      },
+      {
+        hid: 'og:title',
+        name: 'og:title',
+        content: title
+      },
+      {
+        hid: 'og:description',
+        name: 'og:description',
+        content: description
+      },
+      {
+        hid: 'og:image',
+        name: 'og:image',
+        property: 'og:image',
+        content: image
+      },
+      {
+        hid: 'twitter:card',
+        name: 'twitter:card',
+        content: 'summary_large_image'
+      },
+      {
+        hid: 'twitter:image:alt',
+        name: 'twitter:image:alt',
+        content: 'JustShip'
+      },
+      { hid: 'twitter:site', name: 'twitter:site', content: '@JustShipTo' },
+      {
+        hid: 'twitter:title',
+        name: 'twitter:title',
+        content: title
+      },
+      {
+        hid: 'twitter:description',
+        name: 'twitter:description',
+        content: description
+      },
+      {
+        hid: 'twitter:image',
+        name: 'twitter:image',
+        content: image
+      },
+      {
+        hid: 'twitter:creator',
+        name: 'twitter:creator',
+        content: '@JustShipTo'
+      }
     ],
     link: [
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
