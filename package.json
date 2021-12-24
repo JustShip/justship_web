@@ -24,7 +24,7 @@
     "apollo-link-error": "^1.1.13",
     "apollo-link-http": "^1.5.17",
     "cookie-universal-nuxt": "^2.1.5",
-    "core-js": "^3.15.1",
+    "core-js": "^3.20.1",
     "nuxt": "^2.15.7",
     "nuxt-rfg-icon": "^0.6.4",
     "vuelidate": "^0.7.6",
