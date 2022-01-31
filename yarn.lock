@@ -2313,10 +2313,10 @@
   resolved "https://registry.yarnpkg.com/@oclif/screen/-/screen-1.0.4.tgz#b740f68609dfae8aa71c3a6cab15d816407ba493"
   integrity sha512-60CHpq+eqnTxLZQ4PGHYNwUX572hgpMHGPtTWMjdTMsAvlm69lZV/4ly6O3sAYkomo4NggGcomrDpBe34rxUqw==
 
-"@oruga-ui/oruga@^0.4.2":
-  version "0.4.5"
-  resolved "https://registry.yarnpkg.com/@oruga-ui/oruga/-/oruga-0.4.5.tgz#10195eb64c69f58b4bd66cc033ceb172d4e900e7"
-  integrity sha512-ykRjnMfKl7n4yI8NKlrRo0WigkItexWGunE/3IK938CFwr1D+xVRb2LeRqwjnWlAdh59352Lzyyr8dp2TRL3jg==
+"@oruga-ui/oruga@^0.5.3":
+  version "0.5.3"
+  resolved "https://registry.yarnpkg.com/@oruga-ui/oruga/-/oruga-0.5.3.tgz#7281b4702e7fb98542fd305e51ca2eba8ee5d135"
+  integrity sha512-ZuMxXmTv48o0waUKwhP+ARD46YJMyx060JJm7rqCvKO6Qiw4IpyOSukxVfwE8EjRDk0/2Fv587sRZGy0SAsjLQ==
 
 "@polka/url@^1.0.0-next.20":
   version "1.0.0-next.20"
